@@ -7,12 +7,16 @@ import PySimpleGUI as sg
 start_time = time.time()
 
 # Function to count words
+
+
 def word_counter(text):
     words = text.split()
     word_count = len(words)
     return word_count
 
 # Function to analyze text for word, sentence, and character counts
+
+
 def text_analyze(text):
     words = text.split()
     word_dict = {}
@@ -35,34 +39,49 @@ def text_analyze(text):
 
     return sent_count, char_count
 
+
 # GUI layout and theme
+
+
+# Theme and color settings for a sleek look
 sg.theme_background_color('#F5F5DC')
+sg.theme_button_color(('black', '#d3d3d3'))
+sg.theme_element_background_color('#F5F5DC')
+sg.theme_text_element_background_color('#F5F5DC')
+
+button_style = {'size': (12, 1), 'button_color': (
+    'black', '#d3d3d3'), 'border_width': 0, 'pad': (5, 5)}
 
 layout = [
+    [sg.Frame('', [
+        [sg.Button('Text Analyse', key='-text_analyze-', **button_style),
+         sg.Button('WordCounter', key='-wordcount-', **button_style),
+         sg.Button('New Unique', key='-newunique-', **button_style)],
+    ], background_color='#d3d3d3', element_justification='center', pad=(0, 10), expand_x=True)],
+
     [sg.Column([
-        [sg.Button('Text Analyse', key='-text_analyze-', size=(10, 1)),
-         sg.Button('WordCounter', key='-wordcount-', size=(10, 1)),
-         sg.Button('New Unique', key='-newunique-', size=(10, 1))]],
-        background_color='gray',
-        pad=(0, 0),
-        size=(839, 40)
-    )],
-    [
-        sg.Column([
-            [sg.Text("Enter text here:")],
-            [sg.InputText(key='-INPUT-', size=(25, 1))],
-        ], element_justification='left', expand_y=True),
+        [sg.Text("Enter text here:", background_color='#F5F5DC',
+                 font=('Helvetica', 12, 'bold'))],
+        [sg.Multiline(key='-INPUT-', size=(40, 15), background_color='#f0f0f0',
+                      font=('Helvetica', 12), text_color='#000000')],
+    ], element_justification='center', expand_y=True),
 
         sg.VSeparator(),
 
         sg.Column([
-            [sg.Text('', key='-WORD_COUNTER-', font='Any 12')],
-            [sg.Text('', key='-LABEL2-', font='Any 12')]
-        ], element_justification='center', expand_y=True),
-    ]
+            [sg.Text('Word Counter:', background_color='#F5F5DC', font=('Helvetica', 12, 'bold')),
+             sg.Text('', key='-WORD_COUNTER-', font=('Helvetica', 12), background_color='#F5F5DC', text_color="black")],
+            [sg.Text('Text Analyse:', background_color='#F5F5DC', font=('Helvetica', 12, 'bold')),
+             sg.Text('', key='-LABEL2-', font=('Helvetica', 12), background_color='#F5F5DC', text_color="black")],
+            [sg.Text('New Unique:', background_color='#F5F5DC', font=('Helvetica', 12, 'bold')),
+             sg.Text('', key='-NewUni-', font=('Helvetica', 12), background_color='#F5F5DC', text_color="black")],
+
+        ], element_justification='left', pad=(0, 10), expand_y=True)]
 ]
 
-window = sg.Window('Simple GUI', layout, size=(839, 375), finalize=True)
+window = sg.Window('Quillbot Noob Edition', layout,
+                   size=(839, 450), finalize=True)
+
 
 while True:
     event, values = window.read()
@@ -80,21 +99,25 @@ while True:
 
     if event == '-text_analyze-':
         input_text = values['-INPUT-']
-        
+
         if not input_text.strip():
-            window['-WORD_COUNTER-'].update('The input was blank, try again.')
+            window['-LABEL2-'].update('The input was blank, try again.')
         else:
             sent_count, char_count = text_analyze(input_text)
 
             # Display results
             if sent_count == 1 and char_count == 1:
-                window['-LABEL2-'].update(f"There is {sent_count} sentence and {char_count} letter.")
+                window['-LABEL2-'].update(
+                    f"There is {sent_count} sentence and {char_count} letter.")
             elif sent_count == 1:
-                window['-LABEL2-'].update(f"There is {sent_count} sentence and {char_count} letters.")
+                window['-LABEL2-'].update(
+                    f"There is {sent_count} sentence and {char_count} letters.")
             elif sent_count > 1 and char_count == 1:
-                window['-LABEL2-'].update(f"There are {sent_count} sentences and {char_count} letter.")
+                window['-LABEL2-'].update(
+                    f"There are {sent_count} sentences and {char_count} letter.")
             else:
-                window['-LABEL2-'].update(f"There are {sent_count} sentences and {char_count} letters.")
+                window['-LABEL2-'].update(
+                    f"There are {sent_count} sentences and {char_count} letters.")
 
 end_time = time.time()
 print("Execution time {:.6f} seconds".format(end_time - start_time))
