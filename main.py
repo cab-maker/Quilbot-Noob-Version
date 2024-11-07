@@ -44,10 +44,10 @@ def text_analyze(text):
 
 
 # Theme and color settings for a sleek look
-sg.theme_background_color('#F5F5DC')
+sg.theme_background_color('black')
 sg.theme_button_color(('black', '#d3d3d3'))
 sg.theme_element_background_color('#F5F5DC')
-sg.theme_text_element_background_color('#F5F5DC')
+sg.theme_text_element_background_color('black')
 
 button_style = {'size': (12, 1), 'button_color': (
     'black', '#d3d3d3'), 'border_width': 0, 'pad': (5, 5)}
@@ -60,21 +60,21 @@ layout = [
     ], background_color='#d3d3d3', element_justification='center', pad=(0, 10), expand_x=True)],
 
     [sg.Column([
-        [sg.Text("Enter text here:", background_color='#F5F5DC',
+        [sg.Text("Enter text here:", background_color='black',
                  font=('Helvetica', 12, 'bold'))],
-        [sg.Multiline(key='-INPUT-', size=(40, 15), background_color='#f0f0f0',
-                      font=('Helvetica', 12), text_color='#000000')],
+        [sg.Multiline(key='-INPUT-', size=(40, 15), background_color='white',
+                      font=('Helvetica', 12))],
     ], element_justification='center', expand_y=True),
 
         sg.VSeparator(),
 
         sg.Column([
-            [sg.Text('Word Counter:', background_color='#F5F5DC', font=('Helvetica', 12, 'bold')),
-             sg.Text('', key='-WORD_COUNTER-', font=('Helvetica', 12), background_color='#F5F5DC', text_color="black")],
-            [sg.Text('Text Analyse:', background_color='#F5F5DC', font=('Helvetica', 12, 'bold')),
-             sg.Text('', key='-LABEL2-', font=('Helvetica', 12), background_color='#F5F5DC', text_color="black")],
-            [sg.Text('New Unique:', background_color='#F5F5DC', font=('Helvetica', 12, 'bold')),
-             sg.Text('', key='-NewUni-', font=('Helvetica', 12), background_color='#F5F5DC', text_color="black")],
+            [sg.Text('Word Counter:', background_color='black', font=('Helvetica', 12, 'bold')),
+             sg.Text('', key='-WORD_COUNTER-', font=('Helvetica', 12), background_color='black', text_color="black")],
+            [sg.Text('Text Analyse:', background_color='black', font=('Helvetica', 12, 'bold')),
+             sg.Text('', key='-LABEL2-', font=('Helvetica', 12), background_color='black', text_color="black")],
+            [sg.Text('New Unique:', background_color='black', font=('Helvetica', 12, 'bold')),
+             sg.Text('', key='-NewUni-', font=('Helvetica', 12), background_color='black', text_color="black")],
 
         ], element_justification='left', pad=(0, 10), expand_y=True)]
 ]
@@ -92,32 +92,35 @@ while True:
     if event == '-wordcount-':
         input_text = values['-INPUT-']
         if not input_text.strip():
-            window['-WORD_COUNTER-'].update('No input received')
+            window['-WORD_COUNTER-'].update('No input received',
+                                            text_color='white')
         else:
             counter = word_counter(input_text)
-            window['-WORD_COUNTER-'].update(f'The Word Count Is {counter}')
+            window['-WORD_COUNTER-'].update(
+                f'The Word Count Is {counter}', text_color='white')
 
     if event == '-text_analyze-':
         input_text = values['-INPUT-']
 
         if not input_text.strip():
-            window['-LABEL2-'].update('The input was blank, try again.')
+            window['-LABEL2-'].update('The input was blank, try again.',
+                                      text_color='white')
         else:
             sent_count, char_count = text_analyze(input_text)
 
             # Display results
             if sent_count == 1 and char_count == 1:
                 window['-LABEL2-'].update(
-                    f"There is {sent_count} sentence and {char_count} letter.")
+                    f"There is {sent_count} sentence and {char_count} letter.", text_color='white')
             elif sent_count == 1:
                 window['-LABEL2-'].update(
-                    f"There is {sent_count} sentence and {char_count} letters.")
+                    f"There is {sent_count} sentence and {char_count} letters.", text_color='white')
             elif sent_count > 1 and char_count == 1:
                 window['-LABEL2-'].update(
-                    f"There are {sent_count} sentences and {char_count} letter.")
+                    f"There are {sent_count} sentences and {char_count} letter.", text_color='white')
             else:
                 window['-LABEL2-'].update(
-                    f"There are {sent_count} sentences and {char_count} letters.")
+                    f"There are {sent_count} sentences and {char_count} letters.", text_color='white')
 
 end_time = time.time()
 print("Execution time {:.6f} seconds".format(end_time - start_time))
